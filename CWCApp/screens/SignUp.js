@@ -1,5 +1,6 @@
-import React, { useState, useContext } from 'react';
-
+import React, { useState, useContext } from "react";
+import { API_URL } from "@env";
+import axios from "axios";
 import {
   View,
   Text,
@@ -10,18 +11,18 @@ import {
   ScrollView,
   Dimensions,
   TextInput,
-} from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import { LinearGradient } from 'expo-linear-gradient';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
-import FormInput from '../components/FormInput';
-import FormButton from '../components/FormButton';
+} from "react-native";
+import * as Animatable from "react-native-animatable";
+import { LinearGradient } from "expo-linear-gradient";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Feather from "react-native-vector-icons/Feather";
+import FormInput from "../components/FormInput";
+import FormButton from "../components/FormButton";
 const SignUp = ({ navigation }) => {
   const [data, setData] = React.useState({
-    email: '',
-    password: '',
-    confirm_password: '',
+    licensePlate: "",
+    password: "",
+    confirm_password: "",
     check_textInputChange: false,
     secureTextEntry: true,
     confirm_secureTextEntry: true,
@@ -30,13 +31,13 @@ const SignUp = ({ navigation }) => {
     if (val.length !== 0) {
       setData({
         ...data,
-        email: val,
+        licensePlate: val,
         check_textInputChange: true,
       });
     } else {
       setData({
         ...data,
-        email: val,
+        licensePlate: val,
         check_textInputChange: false,
       });
     }
@@ -68,6 +69,16 @@ const SignUp = ({ navigation }) => {
       ...data,
       confirm_secureTextEntry: !data.confirm_secureTextEntry,
     });
+  };
+
+  const registerHandle = async (licensePlate, password) => {
+    const params = { licensePlate, password };
+    try {
+      const response = await axios.post(`${API_URL}/api/auth/register`, params);
+      if (response.data.success) navigation.navigate("Login");
+    } catch (error) {
+      alert(error?.response?.data?.message);
+    }
   };
 
   return (
@@ -133,18 +144,18 @@ const SignUp = ({ navigation }) => {
           <TouchableOpacity
             style={styles.signIn}
             onPress={() => {
-              loginHandle(data.email, data.password);
+              registerHandle(data.licensePlate, data.password);
             }}
           >
             <LinearGradient
-              colors={['#08d4c4', '#01ab9d']}
+              colors={["#08d4c4", "#01ab9d"]}
               style={styles.signIn}
             >
               <Text
                 style={[
                   styles.textSign,
                   {
-                    color: '#fff',
+                    color: "#fff",
                   },
                 ]}
               >
@@ -158,7 +169,7 @@ const SignUp = ({ navigation }) => {
             onPress={() => navigation.goBack()}
           >
             <Text>
-              Đã có tài khoản ?{' '}
+              Đã có tài khoản ?{" "}
               <Text style={styles.navButtonText}>Đăng nhập</Text>
             </Text>
           </TouchableOpacity>
@@ -171,83 +182,83 @@ export default SignUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#a6e4d0',
+    backgroundColor: "#a6e4d0",
   },
   logo: {
     height: 120,
     width: 120,
-    resizeMode: 'cover',
+    resizeMode: "cover",
   },
   logoView: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     marginBottom: 20,
   },
   header: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     paddingHorizontal: 20,
     paddingBottom: 50,
   },
   footer: {
-    flex: Platform.OS === 'ios' ? 3 : 5,
-    backgroundColor: '#fff',
+    flex: Platform.OS === "ios" ? 3 : 5,
+    backgroundColor: "#fff",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: 20,
     paddingVertical: 30,
   },
   text_header: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
     fontSize: 30,
   },
   text_footer: {
-    color: '#05375a',
+    color: "#05375a",
     fontSize: 18,
   },
   action: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#f2f2f2',
+    borderBottomColor: "#f2f2f2",
     paddingBottom: 5,
   },
   textInput: {
     flex: 1,
-    marginTop: Platform.OS === 'ios' ? 0 : -12,
+    marginTop: Platform.OS === "ios" ? 0 : -12,
     paddingLeft: 10,
-    color: '#05375a',
+    color: "#05375a",
   },
   button: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 50,
   },
   signIn: {
-    width: '100%',
+    width: "100%",
     height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 20,
   },
   textSign: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   textPrivate: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     marginTop: 20,
   },
   color_textPrivate: {
-    color: 'grey',
+    color: "grey",
   },
   forgotButton: {
     marginVertical: 35,
   },
   navButtonText: {
     fontSize: 14,
-    fontWeight: '500',
-    color: '#009387',
+    fontWeight: "500",
+    color: "#009387",
   },
 });

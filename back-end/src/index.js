@@ -5,9 +5,8 @@ const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const port = 8080;
-const userRoute = require("./routes/users");
-const authRoute = require("./routes/auth");
-const postRoute = require("./routes/posts");
+
+const route = require("./routes/index");
 
 dotenv.config();
 
@@ -25,12 +24,8 @@ app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
 
-app.get("/", (req, res) => {
-  res.send("Hello xin chao");
-});
-app.use("/api/auth", authRoute);
-app.use("/api/users", userRoute);
-app.use("/api/posts", postRoute);
+//routes init
+route(app);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
