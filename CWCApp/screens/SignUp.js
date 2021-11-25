@@ -2,6 +2,11 @@ import React, { useState, useContext } from "react";
 import { API_URL } from "@env";
 import axios from "axios";
 import {
+  LOCAL_STORAGE_TOKEN_NAME,
+  NOTIFICATION_TYPE,
+} from "../utils/constants";
+import { showMessage, hideMessage } from "react-native-flash-message";
+import {
   View,
   Text,
   TouchableOpacity,
@@ -76,8 +81,17 @@ const SignUp = ({ navigation }) => {
     try {
       const response = await axios.post(`${API_URL}/api/auth/register`, params);
       if (response.data.success) navigation.navigate("Login");
+      showMessage({
+        message: "Thành công",
+        description: response?.data?.message,
+        type: NOTIFICATION_TYPE.SUCCESS,
+      });
     } catch (error) {
-      alert(error?.response?.data?.message);
+      showMessage({
+        message: "Thất bại",
+        description: error?.response?.data?.message,
+        type: NOTIFICATION_TYPE.ERROR,
+      });
     }
   };
 

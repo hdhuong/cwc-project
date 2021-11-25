@@ -10,14 +10,14 @@ class AuthController {
     if (!licensePlate || !password)
       return res.status(400).json({
         success: false,
-        message: "Missing licensePlate and/or password",
+        message: "Vui lòng nhập biển số xe và mật khẩu",
       });
     try {
       const user = await User.findOne({ licensePlate: req.body.licensePlate });
       if (!user)
         return res
           .status(400)
-          .json({ success: false, message: "Cannot find user" });
+          .json({ success: false, message: "Không tìm thấy thông tin " });
 
       const validPassword = await bcrypt.compare(
         req.body.password,
@@ -26,7 +26,7 @@ class AuthController {
       if (!validPassword)
         return res
           .status(400)
-          .json({ success: false, message: "Wrong password" });
+          .json({ success: false, message: "Sai mật khẩu" });
 
       // all good
       const accessToken = jwt.sign(
@@ -53,7 +53,7 @@ class AuthController {
       if (checkUser)
         return res
           .status(400)
-          .json({ success: false, message: "licensePlate already exist" });
+          .json({ success: false, message: "Biển số xe đã tồn tại" });
 
       //generate new password
       const salt = await bcrypt.genSalt(10);
@@ -73,7 +73,7 @@ class AuthController {
       );
       res
         .status(200)
-        .json({ success: true, message: "Create successfully", accessToken });
+        .json({ success: true, message: "Đăng ký thành công", accessToken });
     } catch (err) {
       console.log(err);
       res

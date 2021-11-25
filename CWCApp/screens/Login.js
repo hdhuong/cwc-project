@@ -1,6 +1,10 @@
 import React, { useState, useContext } from "react";
 import { API_URL } from "@env";
-import { LOCAL_STORAGE_TOKEN_NAME } from "../utils/constants";
+import {
+  LOCAL_STORAGE_TOKEN_NAME,
+  NOTIFICATION_TYPE,
+} from "../utils/constants";
+import { showMessage, hideMessage } from "react-native-flash-message";
 import {
   View,
   Text,
@@ -22,6 +26,7 @@ import { auth } from "../firebase/config";
 import axios from "axios";
 
 const LoginScreen = ({ navigation }) => {
+  const [showToast, setShowToast] = useState(false);
   const [data, setData] = React.useState({
     licensePlate: "",
     password: "",
@@ -49,12 +54,15 @@ const LoginScreen = ({ navigation }) => {
 
   const loginHandle = async (licensePlate, password) => {
     const params = { licensePlate, password };
-    console.log("param", params);
     try {
       const response = await axios.post(`${API_URL}/api/auth/login`, params);
       if (response.data.success) navigation.navigate("Home");
     } catch (error) {
-      alert(error?.response?.data?.message);
+      showMessage({
+        message: "Thất bại",
+        description: error?.response?.data?.message,
+        type: NOTIFICATION_TYPE.ERROR,
+      });
     }
   };
 
@@ -166,6 +174,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#a6e4d0",
   },
+
   logo: {
     height: 120,
     width: 120,
