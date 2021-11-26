@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 class AuthController {
-  // POST - login
+  // post - login
   async login(req, res) {
     const { licensePlate, password } = req.body;
     // Simple validation
@@ -17,7 +17,7 @@ class AuthController {
       if (!user)
         return res
           .status(400)
-          .json({ success: false, message: "Không tìm thấy thông tin " });
+          .json({ success: false, message: "Không tìm thấy thông tin xe" });
 
       const validPassword = await bcrypt.compare(
         req.body.password,
@@ -43,8 +43,14 @@ class AuthController {
     }
   }
 
-  //POST - register
+  //post - register
   async register(req, res) {
+    const { licensePlate, password } = req.body;
+    if (!licensePlate || !password)
+      return res.status(400).json({
+        success: false,
+        message: "Vui lòng nhập biển số xe và mật khẩu",
+      });
     try {
       //check user
       const licensePlate = await req.body.licensePlate;
