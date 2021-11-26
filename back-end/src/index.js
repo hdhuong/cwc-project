@@ -7,17 +7,12 @@ const morgan = require("morgan");
 const port = 8080;
 
 const route = require("./routes/index");
+const database = require("./config/database");
+
+// database connect
+database.connect();
 
 dotenv.config();
-
-// connect to db
-mongoose.connect(
-  process.env.MONGO_URL,
-  { useNewUrlParser: true, useUnifiedTopology: true },
-  () => {
-    console.log("Connected to MongoDB");
-  }
-);
 
 //middleware
 app.use(express.json());
