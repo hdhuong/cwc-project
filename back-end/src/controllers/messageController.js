@@ -7,7 +7,7 @@ class MessageController {
 
     try {
       const savedMessage = await newMessage.save();
-      res.status(200).json(savedMessage);
+      res.status(200).json({ success: true, savedMessage });
     } catch (err) {
       res.status(500).json(err);
     }
@@ -19,7 +19,7 @@ class MessageController {
       const messages = await Message.find({
         conversationId: req.params.conversationId,
       });
-      res.status(200).json(messages);
+      res.status(200).json({ success: true, messages });
     } catch (err) {
       res.status(500).json(err);
     }
