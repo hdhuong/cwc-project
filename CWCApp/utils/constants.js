@@ -6,3 +6,5 @@ export const NOTIFICATION_TYPE = {
   INFO: "info",
   WARNING: "warning",
 };
+
+export const API_URL = "http://localhost:8080";

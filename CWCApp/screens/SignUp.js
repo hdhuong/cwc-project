@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
-import { API_URL } from "@env";
 import axios from "axios";
 import {
   LOCAL_STORAGE_TOKEN_NAME,
   NOTIFICATION_TYPE,
+  API_URL,
 } from "../utils/constants";
 import { showMessage, hideMessage } from "react-native-flash-message";
 import {

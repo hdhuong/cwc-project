@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
-import { API_URL } from "@env";
 import {
   LOCAL_STORAGE_TOKEN_NAME,
+  API_URL,
   NOTIFICATION_TYPE,
 } from "../utils/constants";
 import { showMessage, hideMessage } from "react-native-flash-message";
@@ -56,7 +56,8 @@ const LoginScreen = ({ navigation }) => {
     const params = { licensePlate, password };
     try {
       const response = await axios.post(`${API_URL}/api/auth/login`, params);
-      if (response.data.success) navigation.navigate("Home");
+      if (response.data.success)
+        navigation.navigate("Home", { user: response.data.user });
     } catch (error) {
       showMessage({
         message: "Thất bại",

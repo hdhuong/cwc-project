@@ -7,7 +7,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import FlashMessage from "react-native-flash-message";
 
 import AuthStackScreen from "./navigation/AuthStack";
-const AppStack = createStackNavigator();
+import AppStack from "./navigation/AppStack";
 export default function App() {
   return (
     <NavigationContainer>
