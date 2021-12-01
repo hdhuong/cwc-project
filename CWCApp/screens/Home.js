@@ -19,6 +19,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { FlatList, TextInput } from "react-native-gesture-handler";
 
 const HomeScreen = ({ route, navigation }) => {
+  console.log("props", route);
   const renderDiscoverItem = ({ item }) => {
     return (
       <TouchableOpacity
@@ -84,7 +85,7 @@ const HomeScreen = ({ route, navigation }) => {
         {/* Header */}
         <SafeAreaView>
           <View style={styles.menuWrapper}>
-            <TouchableOpacity onPress={() => navigation.openDrawer}>
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
               <Feather
                 name="menu"
                 size={32}
@@ -94,8 +95,8 @@ const HomeScreen = ({ route, navigation }) => {
             </TouchableOpacity>
             <Image
               source={{
-                uri: route?.params?.user?.profilePicture
-                  ? route.params?.user?.profilePicture
+                uri: route?.params?.params?.user?.profilePicture
+                  ? route.params?.params?.user?.profilePicture
                   : "https://lh3.googleusercontent.com/proxy/5HeLhxzMwx9KY6PN7gDSrUk_1JGMFbfdd9s4-TtBs7Xn8jtsmgW6wouqtb42F7QLNB5ZGZUidKtXMSk7ZZac01dvhP825jZtc4Ev-YEbFw",
               }}
               style={styles.profileImage}

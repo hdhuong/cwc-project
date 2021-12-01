@@ -12,23 +12,23 @@ import SettingsScreen from "../screens/Settings";
 
 const Drawer = createDrawerNavigator();
 
-const AppStack = () => {
+const AppStack = ({ route }) => {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />}
       screenOptions={{
         headerShown: false,
-        drawerActiveBackgroundColor: "#aa18ea",
+        drawerActiveBackgroundColor: "#e9bcbe",
         drawerActiveTintColor: "#fff",
         drawerInactiveTintColor: "#333",
         drawerLabelStyle: {
           marginLeft: -25,
-          fontFamily: "Roboto-Medium",
           fontSize: 15,
         },
       }}
     >
       <Drawer.Screen
+        initialParams={{ params: route.params }}
         name="Home"
         component={HomeScreen}
         options={{
