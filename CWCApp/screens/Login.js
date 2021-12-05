@@ -57,7 +57,7 @@ const LoginScreen = ({ navigation }) => {
     try {
       const response = await axios.post(`${API_URL}/api/auth/login`, params);
       if (response.data.success)
-        navigation.navigate("AppStack", { user: response.data.user });
+        navigation.navigate("AppStackDrawer", { user: response.data.user });
     } catch (error) {
       showMessage({
         message: "Thất bại",

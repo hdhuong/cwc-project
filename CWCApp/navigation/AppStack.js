@@ -1,71 +1,23 @@
 import React from "react";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-
-import CustomDrawer from "../components/Drawer";
-
-import Ionicons from "react-native-vector-icons/Ionicons";
-
-import HomeScreen from "../screens/Home";
-import ProfileScreen from "../screens/Profile";
+import { createStackNavigator } from "@react-navigation/stack";
+import ChatScreen from "../screens/Chat";
 import MessagesScreen from "../screens/Messages";
-import SettingsScreen from "../screens/Settings";
+const AppStack = createStackNavigator();
 
-const Drawer = createDrawerNavigator();
-
-const AppStack = ({ route }) => {
+const AppStackScreen = ({ navigation }) => {
   return (
-    <Drawer.Navigator
-      drawerContent={(props) => <CustomDrawer {...props} />}
+    <AppStack.Navigator
       screenOptions={{
         headerShown: false,
-        drawerActiveBackgroundColor: "#e9bcbe",
-        drawerActiveTintColor: "#fff",
-        drawerInactiveTintColor: "#333",
-        drawerLabelStyle: {
-          marginLeft: -25,
-          fontSize: 15,
-        },
       }}
     >
-      <Drawer.Screen
-        initialParams={{ params: route.params }}
-        name="Home"
-        component={HomeScreen}
-        options={{
-          drawerIcon: ({ color }) => (
-            <Ionicons name="home-outline" size={22} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          drawerIcon: ({ color }) => (
-            <Ionicons name="person-outline" size={22} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen
+      <AppStack.Screen
         name="Messages"
         component={MessagesScreen}
-        options={{
-          drawerIcon: ({ color }) => (
-            <Ionicons name="chatbox-ellipses-outline" size={22} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Settings"
-        component={SettingsScreen}
-        options={{
-          drawerIcon: ({ color }) => (
-            <Ionicons name="settings-outline" size={22} color={color} />
-          ),
-        }}
-      />
-    </Drawer.Navigator>
+      ></AppStack.Screen>
+      <AppStack.Screen name="Chat" component={ChatScreen}></AppStack.Screen>
+    </AppStack.Navigator>
   );
 };
 
-export default AppStack;
+export default AppStackScreen;

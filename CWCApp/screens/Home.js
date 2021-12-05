@@ -19,7 +19,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { FlatList, TextInput } from "react-native-gesture-handler";
 
 const HomeScreen = ({ route, navigation }) => {
-  console.log("props", route);
   const renderDiscoverItem = ({ item }) => {
     return (
       <TouchableOpacity
