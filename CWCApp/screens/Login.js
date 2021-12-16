@@ -57,7 +57,7 @@ const LoginScreen = ({ navigation }) => {
     try {
       const response = await axios.post(`${API_URL}/api/auth/login`, params);
       if (response.data.success)
-        navigation.navigate("AppStackDrawer", { user: response.data.user });
+        navigation.navigate("Tabs", { user: response.data.user });
     } catch (error) {
       showMessage({
         message: "Thất bại",
@@ -127,7 +127,7 @@ const LoginScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         <TouchableOpacity>
-          <Text style={{ color: "#009387", marginTop: 15 }}>
+          <Text style={{ color: "#5392b5", marginTop: 15 }}>
             Quên mật khẩu?
           </Text>
         </TouchableOpacity>
@@ -139,7 +139,7 @@ const LoginScreen = ({ navigation }) => {
             }}
           >
             <LinearGradient
-              colors={["#08d4c4", "#01ab9d"]}
+              colors={["#5392b5", "#cfebf9"]}
               style={styles.signIn}
             >
               <Text
@@ -173,7 +173,7 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#a6e4d0",
+    backgroundColor: "#cfebf9",
   },
 
   logo: {
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#f2f2f2",
+    borderBottomColor: "#cfebf9",
     paddingBottom: 5,
   },
   textInput: {
@@ -251,6 +251,6 @@ const styles = StyleSheet.create({
   navButtonText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#009387",
+    color: "#5392b5",
   },
 });

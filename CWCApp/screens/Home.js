@@ -1,159 +1,244 @@
 import React from "react";
 import {
-  View,
-  Text,
   StyleSheet,
+  View,
   Image,
-  ScrollView,
-  ImageBackground,
+  Text,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
-import { Input } from "native-base";
-import colors from "../assets/colors/colors";
-import Feather from "react-native-vector-icons/Feather";
-import Entypo from "react-native-vector-icons/Entypo";
-import activitiesData from "../assets/data/activitiesData";
-import learnMoreData from "../assets/data/learnMoreData";
-import discoverData from "../assets/data/discoverData";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { FlatList, TextInput } from "react-native-gesture-handler";
+import { LinearGradient } from "expo-linear-gradient";
 
-const HomeScreen = ({ route, navigation }) => {
-  const renderDiscoverItem = ({ item }) => {
+import { images, icons, COLORS, FONTS, SIZES } from "../constants";
+
+const OptionItem = ({ bgColor, icon, label, onPress }) => {
+  return (
+    <TouchableOpacity
+      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+      onPress={onPress}
+    >
+      <View style={[styles.shadow, { width: 60, height: 60 }]}>
+        <LinearGradient
+          style={[
+            {
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 15,
+              backgroundColor: "red",
+            },
+          ]}
+          colors={bgColor}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+        >
+          <Image
+            source={icon}
+            resizeMode="cover"
+            style={{
+              tintColor: COLORS.white,
+              width: 30,
+              height: 30,
+            }}
+          />
+        </LinearGradient>
+      </View>
+      <Text
+        style={{ marginTop: SIZES.base, color: COLORS.gray, ...FONTS.body3 }}
+      >
+        {label}
+      </Text>
+    </TouchableOpacity>
+  );
+};
+
+const HomeScreen = ({ navigation }) => {
+  // Dummy Data
+  const [destinations, setDestinations] = React.useState([
+    {
+      id: 0,
+      name: "Ski Villa",
+      img: images.skiVilla,
+    },
+    {
+      id: 1,
+      name: "Climbing Hills",
+      img: images.climbingHills,
+    },
+    {
+      id: 2,
+      name: "Frozen Hills",
+      img: images.frozenHills,
+    },
+    {
+      id: 3,
+      name: "Beach",
+      img: images.beach,
+    },
+  ]);
+
+  // Render
+
+  function renderDestinations(item, index) {
+    var destinationStyle = {};
+
+    if (index == 0) {
+      destinationStyle = { marginLeft: SIZES.padding };
+    }
+
     return (
       <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("Details", {
-            item: item,
-          })
-        }
+        style={{
+          justifyContent: "center",
+          marginHorizontal: SIZES.base,
+          ...destinationStyle,
+        }}
+        onPress={() => {
+          navigation.navigate("DestinationDetail");
+        }}
       >
-        <ImageBackground
-          source={item.image}
-          style={[
-            styles.discoverItem,
-            { marginLeft: item.id === "discover-1" ? 20 : 0 },
-          ]}
-          imageStyle={styles.discoverItemImage}
-        >
-          <Text style={styles.discoverItemTitle}>{item.title}</Text>
-          <View style={styles.discoverItemLocationWrapper}>
-            <Entypo name="location-pin" size={18} color={colors.white} />
-            <Text style={styles.discoverItemLocationText}>{item.location}</Text>
-          </View>
-        </ImageBackground>
+        <Image
+          source={item.img}
+          resizeMode="cover"
+          style={{
+            width: SIZES.width * 0.28,
+            height: "82%",
+            borderRadius: 15,
+          }}
+        />
+
+        <Text style={{ marginTop: SIZES.base / 2, ...FONTS.h4 }}>
+          {item.name}
+        </Text>
       </TouchableOpacity>
     );
-  };
+  }
 
-  const renderActivityItem = ({ item }) => {
-    return (
-      <View
-        style={[
-          styles.activityItemWrapper,
-          {
-            marginLeft: item.id === "activities-1" ? 20 : 0,
-          },
-        ]}
-      >
-        <Image source={item.image} style={styles.activityItemImage} />
-        <Text style={styles.activityItemText}>{item.title}</Text>
-      </View>
-    );
-  };
-
-  const renderLearnMoreItem = ({ item }) => {
-    return (
-      <ImageBackground
-        source={item.image}
-        style={[
-          styles.learnMoreItem,
-          {
-            marginLeft: item.id === "learnMore-1" ? 20 : 0,
-          },
-        ]}
-        imageStyle={styles.learnMoreItemImage}
-      >
-        <Text style={styles.learnMoreItemText}>{item.title}</Text>
-      </ImageBackground>
-    );
-  };
   return (
     <View style={styles.container}>
-      <ScrollView>
-        {/* Header */}
-        <SafeAreaView>
-          <View style={styles.menuWrapper}>
-            <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <Feather
-                name="menu"
-                size={32}
-                color={colors.black}
-                style={styles.menuIcon}
-              />
-            </TouchableOpacity>
-            <Image
-              source={{
-                uri: route?.params?.params?.user?.profilePicture
-                  ? route.params?.params?.user?.profilePicture
-                  : "https://lh3.googleusercontent.com/proxy/5HeLhxzMwx9KY6PN7gDSrUk_1JGMFbfdd9s4-TtBs7Xn8jtsmgW6wouqtb42F7QLNB5ZGZUidKtXMSk7ZZac01dvhP825jZtc4Ev-YEbFw",
-              }}
-              style={styles.profileImage}
-            />
-          </View>
-        </SafeAreaView>
-        {/* Discover */}
-        <View style={styles.discoverWrapper}>
-          <Text style={styles.discoverTitle}>Discover</Text>
-          <View style={styles.discoverCategoriesWrapper}>
-            <Text
-              style={[styles.discoverCategoryText, { color: colors.orange }]}
-            >
-              All
-            </Text>
-            <Text style={styles.discoverCategoryText}>Destinations</Text>
-            <Text style={styles.discoverCategoryText}>Cities</Text>
-            <Text style={styles.discoverCategoryText}>Experiences</Text>
-          </View>
-          <View style={styles.discoverItemsWrapper}>
-            <FlatList
-              data={discoverData}
-              renderItem={renderDiscoverItem}
-              keyExtractor={(item) => item.id}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-            />
-          </View>
+      {/* Banner */}
+      <View
+        style={{
+          flex: 1,
+          marginTop: SIZES.base,
+          paddingHorizontal: SIZES.padding,
+        }}
+      >
+        <Image
+          source={images.banner}
+          resizeMode="cover"
+          style={{
+            width: "100%",
+            height: "100%",
+            borderRadius: 15,
+          }}
+        />
+      </View>
+
+      {/* Options */}
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: SIZES.padding,
+            paddingHorizontal: SIZES.base,
+          }}
+        >
+          <OptionItem
+            icon={icons.airplane}
+            bgColor={["#46aeff", "#5884ff"]}
+            label="Flight"
+            onPress={() => {
+              console.log("Flight");
+            }}
+          />
+          <OptionItem
+            icon={icons.train}
+            bgColor={["#fddf90", "#fcda13"]}
+            label="Train"
+            onPress={() => {
+              console.log("Train");
+            }}
+          />
+          <OptionItem
+            icon={icons.bus}
+            bgColor={["#e973ad", "#da5df2"]}
+            label="Bus"
+            onPress={() => {
+              console.log("Bus");
+            }}
+          />
+          <OptionItem
+            icon={icons.taxi}
+            bgColor={["#fcaba8", "#fe6bba"]}
+            label="Taxi"
+            onPress={() => {
+              console.log("Taxi");
+            }}
+          />
         </View>
 
-        {/* Activities */}
-        <View style={styles.activitiesWrapper}>
-          <Text style={styles.activitiesTitle}>Activities</Text>
-          <View style={styles.activitiesItemsWrapper}>
-            <FlatList
-              data={activitiesData}
-              renderItem={renderActivityItem}
-              keyExtractor={(item) => item.id}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-            />
-          </View>
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: SIZES.radius,
+            paddingHorizontal: SIZES.base,
+          }}
+        >
+          <OptionItem
+            icon={icons.bed}
+            bgColor={["#ffc465", "#ff9c5f"]}
+            label="Hotel"
+            onPress={() => {
+              console.log("Hotel");
+            }}
+          />
+          <OptionItem
+            icon={icons.eat}
+            bgColor={["#7cf1fb", "#4ebefd"]}
+            label="Eats"
+            onPress={() => {
+              console.log("Eats");
+            }}
+          />
+          <OptionItem
+            icon={icons.compass}
+            bgColor={["#7be993", "#46caaf"]}
+            label="Adventure"
+            onPress={() => {
+              console.log("Adventure");
+            }}
+          />
+          <OptionItem
+            icon={icons.event}
+            bgColor={["#fca397", "#fc7b6c"]}
+            label="Event"
+            onPress={() => {
+              console.log("Event");
+            }}
+          />
         </View>
+      </View>
 
-        {/* Learn More */}
-        <View style={styles.learnMoreWrapper}>
-          <Text style={styles.learnMoreTitle}>Learn More</Text>
-          <View style={styles.learnMoreItemsWrapper}>
-            <FlatList
-              data={learnMoreData}
-              renderItem={renderLearnMoreItem}
-              keyExtractor={(item) => item.id}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-            />
-          </View>
-        </View>
-      </ScrollView>
+      {/* Destination */}
+      <View style={{ flex: 1 }}>
+        <Text
+          style={{
+            marginTop: SIZES.base,
+            marginHorizontal: SIZES.padding,
+            ...FONTS.h2,
+          }}
+        >
+          Cars News
+        </Text>
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={destinations}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item, index }) => renderDestinations(item, index)}
+        />
+      </View>
     </View>
   );
 };
@@ -161,132 +246,18 @@ const HomeScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    color: colors.white,
+    backgroundColor: COLORS.white,
   },
-  searchWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    marginTop: 30,
-  },
-  search: {
-    flex: 1,
-    marginLeft: 10,
-    borderBottomColor: colors.textLight,
-    borderBottomWidth: 2,
-  },
-  searchText: {
-    fontSize: 14,
-    marginBottom: 5,
-    color: colors.textLight,
-  },
-  menuWrapper: {
-    marginHorizontal: 20,
-    marginTop: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  profileImage: {
-    width: 52,
-    height: 52,
-    borderRadius: 10,
-  },
-  discoverWrapper: {
-    // marginHorizontal: 20,
-    marginTop: 20,
-  },
-  discoverTitle: {
-    marginHorizontal: 20,
-    fontSize: 32,
-  },
-  discoverCategoriesWrapper: {
-    marginHorizontal: 20,
-    flexDirection: "row",
-    marginTop: 20,
-  },
-  discoverCategoryText: {
-    marginRight: 30,
-    fontSize: 16,
-    color: colors.gray,
-  },
-  discoverItemsWrapper: {
-    paddingVertical: 20,
-  },
-  discoverItem: {
-    width: 170,
-    height: 250,
-    justifyContent: "flex-end",
-    paddingHorizontal: 10,
-    paddingVertical: 15,
-    marginRight: 20,
-  },
-  discoverItemImage: {
-    borderRadius: 20,
-  },
-  discoverItemTitle: {
-    fontSize: 18,
-    color: colors.white,
-  },
-  discoverItemLocationWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 5,
-  },
-  discoverItemLocationText: {
-    marginLeft: 5,
-    fontSize: 14,
-    color: colors.white,
-  },
-  activitiesWrapper: {
-    marginTop: 10,
-  },
-  activitiesTitle: {
-    marginHorizontal: 20,
-    fontSize: 24,
-    color: colors.black,
-  },
-  activitiesItemsWrapper: {
-    paddingVertical: 20,
-  },
-  activityItemWrapper: {
-    justifyContent: "flex-end",
-    alignItems: "center",
-    marginRight: 20,
-  },
-  activityItemImage: {
-    width: 36,
-  },
-  activityItemText: {
-    marginTop: 5,
-    fontSize: 14,
-    color: colors.gray,
-  },
-  learnMoreWrapper: {
-    marginTop: 10,
-  },
-  learnMoreTitle: {
-    marginHorizontal: 20,
-    fontSize: 24,
-    color: colors.black,
-  },
-  learnMoreItemsWrapper: {
-    paddingVertical: 20,
-  },
-  learnMoreItem: {
-    width: 170,
-    height: 180,
-    justifyContent: "flex-end",
-    marginRight: 20,
-  },
-  learnMoreItemImage: {
-    borderRadius: 20,
-  },
-  learnMoreItemText: {
-    fontSize: 18,
-    color: colors.white,
-    marginHorizontal: 10,
-    marginVertical: 20,
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
 });
 

@@ -63,7 +63,7 @@ const CustomDrawer = (props) => {
                 marginLeft: 5,
               }}
             >
-              Tell a Friend
+              Chia sẻ
             </Text>
           </View>
         </TouchableOpacity>
@@ -76,7 +76,7 @@ const CustomDrawer = (props) => {
                 marginLeft: 5,
               }}
             >
-              Sign Out
+              Đăng xuất
             </Text>
           </View>
         </TouchableOpacity>

@@ -6,6 +6,7 @@ import LoginScreen from "../screens/Login";
 import SignUp from "../screens/SignUp";
 import HomeScreen from "../screens/Home";
 import AppStackDrawer from "./AppStackDrawer";
+import Tabs from "./Tabs";
 const AuthStack = createStackNavigator();
 
 const AuthStackScreen = ({ navigation }) => {
@@ -21,10 +22,7 @@ const AuthStackScreen = ({ navigation }) => {
       ></AuthStack.Screen>
       <AuthStack.Screen name="Login" component={LoginScreen}></AuthStack.Screen>
       <AuthStack.Screen name="SignUp" component={SignUp}></AuthStack.Screen>
-      <AuthStack.Screen
-        name="AppStackDrawer"
-        component={AppStackDrawer}
-      ></AuthStack.Screen>
+      <AuthStack.Screen name="Tabs" component={Tabs}></AuthStack.Screen>
     </AuthStack.Navigator>
   );
 };

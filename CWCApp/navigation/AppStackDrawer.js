@@ -28,7 +28,7 @@ const AppStackDrawer = ({ route }) => {
     >
       <Drawer.Screen
         initialParams={{ params: route.params }}
-        name="Home"
+        name="Trang chủ"
         component={HomeScreen}
         options={{
           drawerIcon: ({ color }) => (
@@ -37,7 +37,7 @@ const AppStackDrawer = ({ route }) => {
         }}
       />
       <Drawer.Screen
-        name="Profile"
+        name="Thông tin cá nhân"
         component={ProfileScreen}
         options={{
           drawerIcon: ({ color }) => (
@@ -46,7 +46,8 @@ const AppStackDrawer = ({ route }) => {
         }}
       />
       <Drawer.Screen
-        name="Messages"
+        initialParams={{ params: route.params }}
+        name="Tin nhắn"
         component={AppStackScreen}
         options={{
           drawerIcon: ({ color }) => (
@@ -55,7 +56,7 @@ const AppStackDrawer = ({ route }) => {
         }}
       />
       <Drawer.Screen
-        name="Settings"
+        name="Cài đặt"
         component={SettingsScreen}
         options={{
           drawerIcon: ({ color }) => (

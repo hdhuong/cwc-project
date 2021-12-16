@@ -4,7 +4,8 @@ import ChatScreen from "../screens/Chat";
 import MessagesScreen from "../screens/Messages";
 const AppStack = createStackNavigator();
 
-const AppStackScreen = ({ navigation }) => {
+const AppStackScreen = ({ navigation, route }) => {
+  console.log("route", route);
   return (
     <AppStack.Navigator
       screenOptions={{
@@ -14,6 +15,7 @@ const AppStackScreen = ({ navigation }) => {
       <AppStack.Screen
         name="Messages"
         component={MessagesScreen}
+        initialParams={{ params: route.params }}
       ></AppStack.Screen>
       <AppStack.Screen name="Chat" component={ChatScreen}></AppStack.Screen>
     </AppStack.Navigator>

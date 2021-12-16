@@ -162,7 +162,7 @@ const SignUp = ({ navigation }) => {
             }}
           >
             <LinearGradient
-              colors={["#08d4c4", "#01ab9d"]}
+              colors={["#5392b5", "#cfebf9"]}
               style={styles.signIn}
             >
               <Text
@@ -196,7 +196,7 @@ export default SignUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#a6e4d0",
+    backgroundColor: "#cfebf9",
   },
   logo: {
     height: 120,
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#f2f2f2",
+    borderBottomColor: "#cfebf9",
     paddingBottom: 5,
   },
   textInput: {
@@ -273,6 +273,6 @@ const styles = StyleSheet.create({
   navButtonText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#009387",
+    color: "#5392b5",
   },
 });
