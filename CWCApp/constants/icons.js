@@ -19,8 +19,32 @@ export const train = require("../assets/icons/train_icon.png");
 export const user = require("../assets/icons/user_icon.png");
 export const villa = require("../assets/icons/villa_icon.png");
 export const wind = require("../assets/icons/wind_icon.png");
-
+export const accident = require("../assets/icons/accident.png");
+export const message = require("../assets/icons/message.png");
+export const searchcar = require("../assets/icons/searchcar.png");
+export const carsharing = require("../assets/icons/car-sharing.png");
+export const driverless = require("../assets/icons/driverless-car.png");
+export const carpark = require("../assets/icons/parked-car.png");
+export const report = require("../assets/icons/report.png");
+export const road = require("../assets/icons/road.png");
+export const sparepart = require("../assets/icons/spare-parts.png");
+export const community = require("../assets/icons/group-users.png");
+export const slippery = require("../assets/icons/slippery.png");
+export const map = require("../assets/icons/map.png");
+export const trafficjam = require("../assets/icons/traffic-jam.png");
+export const urgent = require("../assets/icons/urgent.png");
 export default {
+  urgent,
+  trafficjam,
+  map,
+  slippery,
+  community,
+  carsharing,
+  driverless,
+  carpark,
+  report,
+  road,
+  sparepart,
   airplane,
   back,
   barMenu,
@@ -42,4 +66,7 @@ export default {
   user,
   villa,
   wind,
+  accident,
+  message,
+  searchcar,
 };

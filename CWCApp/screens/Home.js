@@ -145,33 +145,33 @@ const HomeScreen = ({ navigation }) => {
           }}
         >
           <OptionItem
-            icon={icons.airplane}
+            icon={icons.searchcar}
             bgColor={["#46aeff", "#5884ff"]}
-            label="Flight"
+            label="Tìm xe"
             onPress={() => {
               console.log("Flight");
             }}
           />
           <OptionItem
-            icon={icons.train}
+            icon={icons.community}
             bgColor={["#fddf90", "#fcda13"]}
-            label="Train"
+            label="Cộng đồng"
             onPress={() => {
               console.log("Train");
             }}
           />
           <OptionItem
-            icon={icons.bus}
+            icon={icons.carpark}
             bgColor={["#e973ad", "#da5df2"]}
-            label="Bus"
+            label="Đỗ xe"
             onPress={() => {
               console.log("Bus");
             }}
           />
           <OptionItem
-            icon={icons.taxi}
+            icon={icons.map}
             bgColor={["#fcaba8", "#fe6bba"]}
-            label="Taxi"
+            label="Bản đồ"
             onPress={() => {
               console.log("Taxi");
             }}
@@ -186,33 +186,33 @@ const HomeScreen = ({ navigation }) => {
           }}
         >
           <OptionItem
-            icon={icons.bed}
+            icon={icons.slippery}
             bgColor={["#ffc465", "#ff9c5f"]}
-            label="Hotel"
+            label="Chú ý"
             onPress={() => {
               console.log("Hotel");
             }}
           />
           <OptionItem
-            icon={icons.eat}
+            icon={icons.accident}
             bgColor={["#7cf1fb", "#4ebefd"]}
-            label="Eats"
+            label="Va chạm"
             onPress={() => {
               console.log("Eats");
             }}
           />
           <OptionItem
-            icon={icons.compass}
+            icon={icons.trafficjam}
             bgColor={["#7be993", "#46caaf"]}
-            label="Adventure"
+            label="Tắc đường"
             onPress={() => {
               console.log("Adventure");
             }}
           />
           <OptionItem
-            icon={icons.event}
+            icon={icons.urgent}
             bgColor={["#fca397", "#fc7b6c"]}
-            label="Event"
+            label="Cứu hộ"
             onPress={() => {
               console.log("Event");
             }}

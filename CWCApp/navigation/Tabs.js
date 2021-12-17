@@ -3,7 +3,8 @@ import { Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import HomeScreen from "../screens/Home";
-
+import AppStackScreen from "../navigation/AppStack";
+import ProfileScreen from "../screens/Profile";
 import { icons, COLORS } from "../constants";
 
 const Tab = createBottomTabNavigator();
@@ -24,7 +25,8 @@ const tabOptions = {
   },
 };
 
-const Tabs = () => {
+const Tabs = ({ route }) => {
+  const user = route?.params;
   return (
     <Tab.Navigator
       tabBarOptions={tabOptions}
@@ -57,10 +59,10 @@ const Tabs = () => {
                   }}
                 />
               );
-            case "Bookmark":
+            case "Message":
               return (
                 <Image
-                  source={icons.bookmark}
+                  source={icons.message}
                   resizeMode="contain"
                   style={{
                     tintColor: tintColor,
@@ -87,8 +89,12 @@ const Tabs = () => {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Search" component={HomeScreen} />
-      <Tab.Screen name="Bookmark" component={HomeScreen} />
-      <Tab.Screen name="Account" component={HomeScreen} />
+      <Tab.Screen name="Message" component={AppStackScreen} />
+      <Tab.Screen
+        name="Account"
+        component={ProfileScreen}
+        initialParams={user}
+      />
     </Tab.Navigator>
   );
 };
