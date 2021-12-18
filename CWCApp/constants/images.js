@@ -6,7 +6,12 @@ export const onboardingImage = require("../assets/images/onboarding_image.jpg");
 export const skiVilla = require("../assets/images/ski_villa.jpg");
 export const skiVillaBanner = require("../assets/images/ski_villa_banner.jpg");
 export const banner = require("../assets/images/banner.png");
-
+export const news1 = require("../assets/images/news1.jpeg");
+export const news2 = require("../assets/images/news2.jpeg");
+export const news3 = require("../assets/images/news3.jpeg");
+export const news4 = require("../assets/images/news4.jpeg");
+export const nodata = require("../assets/images/nodata.jpg");
+export const notfound = require("../assets/images/notfound.png");
 export default {
   beach,
   climbingHills,
@@ -16,4 +21,10 @@ export default {
   skiVilla,
   skiVillaBanner,
   banner,
+  news1,
+  news2,
+  news3,
+  news4,
+  nodata,
+  notfound,
 };

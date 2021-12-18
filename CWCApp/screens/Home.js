@@ -8,7 +8,6 @@ import {
   FlatList,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-
 import { images, icons, COLORS, FONTS, SIZES } from "../constants";
 
 const OptionItem = ({ bgColor, icon, label, onPress }) => {
@@ -52,38 +51,38 @@ const OptionItem = ({ bgColor, icon, label, onPress }) => {
   );
 };
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation, route }) => {
   // Dummy Data
-  const [destinations, setDestinations] = React.useState([
+  const [news, setNews] = React.useState([
     {
       id: 0,
-      name: "Ski Villa",
-      img: images.skiVilla,
+      name: "Tin tức",
+      img: images.news1,
     },
     {
       id: 1,
-      name: "Climbing Hills",
-      img: images.climbingHills,
+      name: "Đánh giá xe",
+      img: images.news2,
     },
     {
       id: 2,
-      name: "Frozen Hills",
-      img: images.frozenHills,
+      name: "Bảng giá",
+      img: images.news3,
     },
     {
       id: 3,
-      name: "Beach",
-      img: images.beach,
+      name: "Phụ tùng",
+      img: images.news4,
     },
   ]);
 
   // Render
 
-  function renderDestinations(item, index) {
-    var destinationStyle = {};
+  function renderNews(item, index) {
+    var newsStyle = {};
 
     if (index == 0) {
-      destinationStyle = { marginLeft: SIZES.padding };
+      newsStyle = { marginLeft: SIZES.padding };
     }
 
     return (
@@ -91,7 +90,7 @@ const HomeScreen = ({ navigation }) => {
         style={{
           justifyContent: "center",
           marginHorizontal: SIZES.base,
-          ...destinationStyle,
+          ...newsStyle,
         }}
         onPress={() => {
           navigation.navigate("DestinationDetail");
@@ -149,7 +148,7 @@ const HomeScreen = ({ navigation }) => {
             bgColor={["#46aeff", "#5884ff"]}
             label="Tìm xe"
             onPress={() => {
-              console.log("Flight");
+              navigation.navigate("SearchCar");
             }}
           />
           <OptionItem
@@ -220,7 +219,7 @@ const HomeScreen = ({ navigation }) => {
         </View>
       </View>
 
-      {/* Destination */}
+      {/* Car news */}
       <View style={{ flex: 1 }}>
         <Text
           style={{
@@ -234,9 +233,9 @@ const HomeScreen = ({ navigation }) => {
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
-          data={destinations}
+          data={news}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item, index }) => renderDestinations(item, index)}
+          renderItem={({ item, index }) => renderNews(item, index)}
         />
       </View>
     </View>

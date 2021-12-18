@@ -12,7 +12,7 @@ import {
   MessageText,
   TextSection,
 } from "../styles/MessagesStyles";
-
+import { images, icons, COLORS, FONTS, SIZES } from "../constants";
 const Messages = [
   {
     id: "1",
@@ -59,6 +59,9 @@ const Messages = [
 const MessagesScreen = ({ navigation }) => {
   return (
     <Container>
+      <Text style={{ marginTop: 40, fontSize: 18, fontFamily: "Roboto-Bold" }}>
+        Tin nhắn
+      </Text>
       <FlatList
         data={Messages}
         keyExtractor={(item) => item.id}

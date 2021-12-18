@@ -5,7 +5,6 @@ import MessagesScreen from "../screens/Messages";
 const AppStack = createStackNavigator();
 
 const AppStackScreen = ({ navigation, route }) => {
-  console.log("route", route);
   return (
     <AppStack.Navigator
       screenOptions={{

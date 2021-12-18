@@ -57,6 +57,7 @@ class UserController {
     try {
       const user = await User.find({ licensePlate: licensePlate });
       const other = user?.map((i) => ({
+        userId: i._id,
         licensePlate: i.licensePlate,
         profilePicture: i.profilePicture,
         desc: i.desc,

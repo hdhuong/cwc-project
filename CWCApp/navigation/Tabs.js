@@ -1,41 +1,39 @@
 import React from "react";
 import { Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
+import HomeStackScreen from "./HomeStack";
 import HomeScreen from "../screens/Home";
 import AppStackScreen from "../navigation/AppStack";
 import ProfileScreen from "../screens/Profile";
+import SearchCarScreen from "../screens/SearchCar";
 import { icons, COLORS } from "../constants";
 
 const Tab = createBottomTabNavigator();
-
-const tabOptions = {
-  showLabel: false,
-  style: {
-    height: 90,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.53,
-    shadowRadius: 13.97,
-
-    elevation: 21,
-  },
-};
 
 const Tabs = ({ route }) => {
   const user = route?.params;
   return (
     <Tab.Navigator
-      tabBarOptions={tabOptions}
       screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          height: 80,
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 10,
+          },
+          shadowOpacity: 0.53,
+          shadowRadius: 13.97,
+
+          elevation: 21,
+        },
         tabBarIcon: ({ focused }) => {
           const tintColor = focused ? COLORS.primary : COLORS.gray;
 
           switch (route.name) {
-            case "Home":
+            case "HomeStackScreen":
               return (
                 <Image
                   source={icons.home}
@@ -87,8 +85,16 @@ const Tabs = ({ route }) => {
         },
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Search" component={HomeScreen} />
+      <Tab.Screen
+        name="HomeStackScreen"
+        component={HomeStackScreen}
+        initialParams={user}
+      />
+      <Tab.Screen
+        name="Search"
+        component={SearchCarScreen}
+        initialParams={user}
+      />
       <Tab.Screen name="Message" component={AppStackScreen} />
       <Tab.Screen
         name="Account"
