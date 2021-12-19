@@ -59,7 +59,6 @@ const SearchCarScreen = ({ route, navigation }) => {
     }
   };
   const carsFilter = cars?.filter((x) => x.licensePlate !== user?.licensePlate);
-
   return (
     <View style={{ flex: 1, alignItems: "center", marginTop: 60 }}>
       <Text style={{ fontSize: 18, fontFamily: "Roboto-Bold" }}>
@@ -98,13 +97,17 @@ const SearchCarScreen = ({ route, navigation }) => {
           <FlatList
             data={carsFilter}
             key={(item) => item._id}
-            keyExtractor={(item) => item._id}
+            keyExtractor={(item, index) => {
+              return index.toString();
+            }}
             renderItem={({ item }) => (
               <Card
                 onPress={() =>
                   navigation.navigate("OrtherProfile", {
                     licensePlate: item.licensePlate,
                     profilePicture: item.profilePicture,
+                    userId: item.userId,
+                    currentUserId: user._id,
                   })
                 }
               >

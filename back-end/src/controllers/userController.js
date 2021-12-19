@@ -67,6 +67,24 @@ class UserController {
       res.status(500).json({ success: false, message: "Interal server error" });
     }
   }
+
+  // get - get all user
+  async getAllUser(req, res) {
+    try {
+      const users = await User.find();
+      const other = users?.map((i) => ({
+        userId: i._id,
+        licensePlate: i.licensePlate,
+        profilePicture: i.profilePicture,
+        desc: i.desc,
+      }));
+      res
+        .status(200)
+        .json({ success: true, user: other, total: users?.length });
+    } catch (err) {
+      res.status(500).json({ success: false, message: "Interal server error" });
+    }
+  }
 }
 
 module.exports = new UserController();

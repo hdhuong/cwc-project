@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Button, StyleSheet, FlatList } from "react-native";
 import {
   Container,
@@ -13,74 +13,83 @@ import {
   TextSection,
 } from "../styles/MessagesStyles";
 import { images, icons, COLORS, FONTS, SIZES } from "../constants";
-const Messages = [
-  {
-    id: "1",
-    userName: "Jenny Doe",
-    userImg: require("../assets/users/user-3.jpg"),
-    messageTime: "4 mins ago",
-    messageText:
-      "Hey there, this is my test for a post of my social app in React Native.",
-  },
-  {
-    id: "2",
-    userName: "John Doe",
-    userImg: require("../assets/users/user-1.jpg"),
-    messageTime: "2 hours ago",
-    messageText:
-      "Hey there, this is my test for a post of my social app in React Native.",
-  },
-  {
-    id: "3",
-    userName: "Ken William",
-    userImg: require("../assets/users/user-4.jpg"),
-    messageTime: "1 hours ago",
-    messageText:
-      "Hey there, this is my test for a post of my social app in React Native.",
-  },
-  {
-    id: "4",
-    userName: "Selina Paul",
-    userImg: require("../assets/users/user-6.jpg"),
-    messageTime: "1 day ago",
-    messageText:
-      "Hey there, this is my test for a post of my social app in React Native.",
-  },
-  {
-    id: "5",
-    userName: "Christy Alex",
-    userImg: require("../assets/users/user-7.jpg"),
-    messageTime: "2 days ago",
-    messageText:
-      "Hey there, this is my test for a post of my social app in React Native.",
-  },
-];
+import {
+  LOCAL_STORAGE_TOKEN_NAME,
+  API_URL,
+  NOTIFICATION_TYPE,
+} from "../utils/constants";
+import axios from "axios";
 
-const MessagesScreen = ({ navigation }) => {
+const MessagesScreen = ({ navigation, route }) => {
+  const [conversations, setConversations] = useState([]);
+  const [currentChat, setCurrentChat] = useState(null);
+  const [friend, setFriend] = useState(null);
+  const [listUser, setListUser] = useState([]);
+  const user = route?.params;
+  useEffect(() => {
+    const getListUser = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/users/`);
+        setListUser(res.data.user);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getListUser();
+  }, []);
+  useEffect(() => {
+    const getConversations = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/conversations/${user._id}`);
+        setConversations(res.data.conversation);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getConversations();
+  }, [user._id]);
+
+  const friends = conversations?.map((x) =>
+    x?.members?.find((i) => i !== user._id)
+  );
+
+  const data = listUser?.filter((x) => friends?.includes(x.userId));
   return (
     <Container>
       <Text style={{ marginTop: 40, fontSize: 18, fontFamily: "Roboto-Bold" }}>
         Tin nhắn
       </Text>
       <FlatList
-        data={Messages}
-        keyExtractor={(item) => item.id}
+        data={data}
+        keyExtractor={(item) => item.userId}
         renderItem={({ item }) => (
           <Card
             onPress={() =>
-              navigation.navigate("Chat", { userName: item.userName })
+              navigation.navigate("Chat", {
+                friendId: item.userId,
+                profilePicture: item.profilePicture,
+                currentUserId: user._id,
+              })
             }
           >
             <UserInfo>
               <UserImgWrapper>
-                <UserImg source={item.userImg} />
+                <UserImg
+                  source={
+                    item.profilePicture
+                      ? { uri: item.profilePicture }
+                      : {
+                          uri: "https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user.png",
+                        }
+                  }
+                />
               </UserImgWrapper>
               <TextSection>
                 <UserInfoText>
-                  <UserName>{item.userName}</UserName>
-                  <PostTime>{item.messageTime}</PostTime>
+                  <UserName>{item.licensePlate}</UserName>
+                  {/* <PostTime>{item.messageTime}</PostTime> */}
                 </UserInfoText>
-                <MessageText>{item.messageText}</MessageText>
+                {/* <MessageText>{item.messageText}</MessageText> */}
               </TextSection>
             </UserInfo>
           </Card>

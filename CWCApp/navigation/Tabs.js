@@ -95,7 +95,11 @@ const Tabs = ({ route }) => {
         component={SearchCarScreen}
         initialParams={user}
       />
-      <Tab.Screen name="Message" component={AppStackScreen} />
+      <Tab.Screen
+        name="Message"
+        component={AppStackScreen}
+        initialParams={user}
+      />
       <Tab.Screen
         name="Account"
         component={ProfileScreen}

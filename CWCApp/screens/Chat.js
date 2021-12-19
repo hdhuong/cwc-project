@@ -1,43 +1,117 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { View, ScrollView, Text, Button, StyleSheet } from "react-native";
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import {
+  View,
+  ScrollView,
+  Text,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { Bubble, GiftedChat, Send } from "react-native-gifted-chat";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-
-const ChatScreen = () => {
+import Feather from "react-native-vector-icons/Feather";
+import axios from "axios";
+import {
+  LOCAL_STORAGE_TOKEN_NAME,
+  API_URL,
+  NOTIFICATION_TYPE,
+} from "../utils/constants";
+import { io } from "socket.io-client";
+const ChatScreen = ({ route, navigation }) => {
+  const currentUserId = route?.params?.currentUserId;
+  const secondUserId = route?.params?.friendId;
   const [messages, setMessages] = useState([]);
+  const [secondUser, setSecondUser] = useState(null);
+  const [conversation, setConversation] = useState(null);
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const socket = useRef();
+  useEffect(() => {
+    socket.current = io("ws://localhost:8900");
+    socket.current.on("getMessage", (data) => {
+      setArrivalMessage({
+        sender: data.senderId,
+        text: data.text,
+        createdAt: Date.now(),
+      });
+    });
+  }, []);
 
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: "Hello developer",
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "React Native",
-          avatar: "https://placeimg.com/140/140/any",
-        },
-      },
-      {
-        _id: 2,
-        text: "Hello world",
-        createdAt: new Date(),
-        user: {
-          _id: 1,
-          name: "React Native",
-          avatar: "https://placeimg.com/140/140/any",
-        },
-      },
-    ]);
+    arrivalMessage &&
+      secondUserId === arrivalMessage.sender &&
+      setMessages((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage, conversation]);
+
+  useEffect(() => {
+    const getSecondUser = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/users/${secondUserId}`);
+        setSecondUser(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getSecondUser();
   }, []);
 
-  const onSend = useCallback((messages = []) => {
-    setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, messages)
-    );
+  useEffect(() => {
+    const getConversation = async () => {
+      try {
+        const res = await axios.get(
+          `${API_URL}/api/conversations/find/${currentUserId}/${secondUserId}`
+        );
+        setConversation(res.data.conversation);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getConversation();
   }, []);
+  const conversationId = conversation?._id;
 
+  useEffect(() => {
+    const getMessages = async () => {
+      try {
+        const res = await axios.get(
+          `${API_URL}/api/messages/${conversationId}`
+        );
+        setMessages(res.data.messages.reverse());
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getMessages();
+  }, [conversation]);
+
+  const onSend = async (messages) => {
+    const params = {
+      sender: currentUserId,
+      text: messages[0]?.text,
+      conversationId: conversationId,
+    };
+
+    socket.current.emit("sendMessage", {
+      senderId: currentUserId,
+      receiverId: secondUserId,
+      text: messages[0]?.text,
+    });
+
+    try {
+      const res = await axios.post(`${API_URL}/api/messages`, params);
+      appendMessages(res.data.savedMessage);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const appendMessages = useCallback(
+    (messages) => {
+      setMessages((previousMessages) =>
+        GiftedChat.append(previousMessages, messages)
+      );
+    },
+    [messages]
+  );
   const renderSend = (props) => {
     return (
       <Send {...props}>
@@ -71,23 +145,54 @@ const ChatScreen = () => {
     );
   };
 
+  const dataTest = messages?.map((x) => ({
+    ...x,
+    user: {
+      _id: x.sender === currentUserId ? 1 : 2,
+      avatar: x.sender === currentUserId ? null : secondUser.profilePicture,
+    },
+  }));
+
   const scrollToBottomComponent = () => {
     return <FontAwesome name="angle-double-down" size={22} color="#333" />;
   };
 
   return (
-    <GiftedChat
-      messages={messages}
-      onSend={(messages) => onSend(messages)}
-      user={{
-        _id: 1,
-      }}
-      renderBubble={renderBubble}
-      alwaysShowSend
-      renderSend={renderSend}
-      scrollToBottom
-      scrollToBottomComponent={scrollToBottomComponent}
-    />
+    <View style={{ flex: 1, justifyContent: "center" }}>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: 60,
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Messages");
+          }}
+        >
+          <View>
+            <Feather name="arrow-left" size={20} style={{ marginRight: 10 }} />
+          </View>
+        </TouchableOpacity>
+        <Text>Cuộc trò chuyện với {secondUser?.licensePlate}</Text>
+      </View>
+
+      <GiftedChat
+        messages={dataTest}
+        onSend={(messages) => onSend(messages)}
+        user={{
+          _id: 1,
+        }}
+        renderBubble={renderBubble}
+        alwaysShowSend
+        renderSend={renderSend}
+        scrollToBottom
+        scrollToBottomComponent={scrollToBottomComponent}
+      />
+    </View>
   );
 };
 

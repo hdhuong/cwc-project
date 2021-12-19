@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const userController = require("../controllers/userController");
 
+//get all user
+router.get("/", userController.getAllUser);
 //search user by license plate
 router.get("/search/:licensePlate", userController.searchUser);
 //update user
