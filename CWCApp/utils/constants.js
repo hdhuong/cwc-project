@@ -8,3 +8,5 @@ export const NOTIFICATION_TYPE = {
 };
 
 export const API_URL = "http://localhost:8080";
+
+export const PUBLIC_FORDER = "http://localhost:8080/images";

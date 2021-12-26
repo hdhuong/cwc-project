@@ -27,12 +27,20 @@ const OtherProfileScreen = ({ route, navigation }) => {
       receiverId: receiverId,
     };
     try {
-      const res = await axios.post(`${API_URL}/api/conversations`, params);
-      if (res.data.success)
+      const res1 = await axios.get(`${API_URL}/api/conversations/${user._id}`);
+      if (res1.data.conversation.length === 0) {
+        const res = await axios.post(`${API_URL}/api/conversations`, params);
+        if (res.data.success)
+          navigation.navigate("Chat", {
+            currentUserId: senderId,
+            friendId: receiverId,
+          });
+      } else {
         navigation.navigate("Chat", {
           currentUserId: senderId,
           friendId: receiverId,
         });
+      }
     } catch (err) {
       console.log(err);
     }

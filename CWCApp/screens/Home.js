@@ -156,7 +156,7 @@ const HomeScreen = ({ navigation, route }) => {
             bgColor={["#fddf90", "#fcda13"]}
             label="Cộng đồng"
             onPress={() => {
-              console.log("Train");
+              navigation.navigate("NewsFeed");
             }}
           />
           <OptionItem

@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../screens/Home";
 import SearchCarScreen from "../screens/SearchCar";
 import OtherProfileScreen from "../screens/OtherProfile";
+import NewsFeedScreen from "../screens/NewsFeed";
 const HomeStack = createStackNavigator();
 
 const HomeStackScreen = ({ navigation, route }) => {
@@ -26,6 +27,10 @@ const HomeStackScreen = ({ navigation, route }) => {
       <HomeStack.Screen
         name="OrtherProfile"
         component={OtherProfileScreen}
+      ></HomeStack.Screen>
+      <HomeStack.Screen
+        name="NewsFeed"
+        component={NewsFeedScreen}
       ></HomeStack.Screen>
     </HomeStack.Navigator>
   );
