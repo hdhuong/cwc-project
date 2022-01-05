@@ -166,7 +166,7 @@ const HomeScreen = ({ navigation, route }) => {
             bgColor={["#e973ad", "#da5df2"]}
             label="Đỗ xe"
             onPress={() => {
-              console.log("Bus");
+              navigation.navigate("Maps");
             }}
           />
           <OptionItem

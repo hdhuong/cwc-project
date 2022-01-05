@@ -7,6 +7,7 @@ import NewsFeedScreen from "../screens/NewsFeed";
 import AddPostScreen from "../screens/AddPost";
 import ChatScreen from "../screens/Chat";
 import MessagesScreen from "../screens/Messages";
+import MapScreen from "../screens/Maps";
 const HomeStack = createStackNavigator();
 
 const HomeStackScreen = ({ navigation, route }) => {
@@ -39,6 +40,7 @@ const HomeStackScreen = ({ navigation, route }) => {
         name="AddPost"
         component={AddPostScreen}
       ></HomeStack.Screen>
+      <HomeStack.Screen name="Maps" component={MapScreen}></HomeStack.Screen>
       <HomeStack.Screen name="Chat" component={ChatScreen}></HomeStack.Screen>
       <HomeStack.Screen
         name="Messages"
