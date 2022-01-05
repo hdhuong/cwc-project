@@ -10,7 +10,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { images, icons, COLORS, FONTS, SIZES } from "../constants";
 
-const OptionItem = ({ bgColor, icon, label, onPress }) => {
+const OptionItem = ({ bgColor, icon, label, onPress, ...props }) => {
   return (
     <TouchableOpacity
       style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
@@ -52,6 +52,8 @@ const OptionItem = ({ bgColor, icon, label, onPress }) => {
 };
 
 const HomeScreen = ({ navigation, route }) => {
+  const user = route?.params?.user;
+
   // Dummy Data
   const [news, setNews] = React.useState([
     {
@@ -156,7 +158,7 @@ const HomeScreen = ({ navigation, route }) => {
             bgColor={["#fddf90", "#fcda13"]}
             label="Cộng đồng"
             onPress={() => {
-              navigation.navigate("NewsFeed");
+              navigation.navigate("NewsFeed", { user });
             }}
           />
           <OptionItem

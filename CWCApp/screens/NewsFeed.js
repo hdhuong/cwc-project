@@ -7,7 +7,11 @@ import {
   FlatList,
   SafeAreaView,
   Alert,
+  TextInput,
+  TouchableOpacity,
+  Image,
 } from "react-native";
+import Feather from "react-native-vector-icons/Feather";
 // import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 
 import PostCard from "../components/PostCard";
@@ -72,7 +76,8 @@ const Posts = [
   },
 ];
 
-const NewsFeedScreen = ({ navigation }) => {
+const NewsFeedScreen = ({ navigation, route }) => {
+  const user = route?.params?.user;
   const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(false);
   const [deleted, setDeleted] = useState(false);
@@ -161,6 +166,57 @@ const NewsFeedScreen = ({ navigation }) => {
         //   </SkeletonPlaceholder>
         // </ScrollView>
         <Container>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              width: 320,
+              marginBottom: 5,
+            }}
+          >
+            <Image
+              source={{
+                uri: user
+                  ? user.profilePicture ||
+                    "https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg"
+                  : "https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg",
+              }}
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 25,
+                marginBottom: 8,
+                marginRight: 3,
+              }}
+            ></Image>
+            <View style={styles.action}>
+              <TextInput
+                placeholder="Bạn đang nghĩ gì ? "
+                style={styles.textInput}
+                autoCapitalize="none"
+                // onChangeText={(val) => textInputChange(val)}
+              />
+            </View>
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("AddPost");
+                }}
+              >
+                <View>
+                  <Feather
+                    name="plus"
+                    size={25}
+                    style={{
+                      marginLeft: 10,
+                      marginBottom: 8,
+                      color: "#3181a3",
+                    }}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
           <FlatList
             data={Posts}
             renderItem={({ item }) => (
@@ -184,3 +240,40 @@ const NewsFeedScreen = ({ navigation }) => {
 };
 
 export default NewsFeedScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  container2: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: 40,
+  },
+  searchBar: {
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    marginLeft: 20,
+    marginTop: 20,
+  },
+  action: {
+    flexDirection: "row",
+    borderWidth: 2,
+    borderColor: "#d5dce9",
+    paddingBottom: 5,
+    borderRadius: 30,
+    height: 50,
+    alignItems: "center",
+    backgroundColor: "#f3f4f5",
+    width: 250,
+    marginBottom: 10,
+  },
+  textInput: {
+    flex: 1,
+    marginTop: Platform.OS === "ios" ? 0 : -12,
+    paddingLeft: 10,
+    color: "#05375a",
+  },
+});

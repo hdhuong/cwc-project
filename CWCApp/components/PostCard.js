@@ -23,7 +23,6 @@ import moment from "moment";
 import { TouchableOpacity } from "react-native";
 
 const PostCard = ({ item, onDelete, onPress }) => {
-  console.log("item", item);
   const [userData, setUserData] = useState(null);
 
   likeIcon = item.liked ? "heart" : "heart-outline";
