@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import {
   View,
   ScrollView,
@@ -12,79 +13,139 @@ import {
   Image,
 } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
+import {
+  LOCAL_STORAGE_TOKEN_NAME,
+  API_URL,
+  NOTIFICATION_TYPE,
+} from "../utils/constants";
+import axios from "axios";
+import ButtonToggleGroup from "react-native-button-toggle-group";
+import { showMessage, hideMessage } from "react-native-flash-message";
 // import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 
 import PostCard from "../components/PostCard";
 
 import { Container } from "../styles/NewsFeedStyles";
 
-const Posts = [
-  {
-    id: "1",
-    userName: "Jenny Doe",
-    userImg: require("../assets/users/user-3.jpg"),
-    postTime: "4 mins ago",
-    post: "Hey there, this is my test for a post of my social app in React Native.",
-    postImg: require("../assets/images/home_banner.jpg"),
-    liked: true,
-    likes: "14",
-    comments: "5",
-  },
-  {
-    id: "2",
-    userName: "John Doe",
-    userImg: require("../assets/users/user-1.jpg"),
-    postTime: "2 hours ago",
-    post: "Hey there, this is my test for a post of my social app in React Native.",
-    postImg: "none",
-    liked: false,
-    likes: "8",
-    comments: "0",
-  },
-  {
-    id: "3",
-    userName: "Ken William",
-    userImg: require("../assets/users/user-4.jpg"),
-    postTime: "1 hours ago",
-    post: "Hey there, this is my test for a post of my social app in React Native.",
-    postImg: require("../assets/images/home_banner.jpg"),
-    liked: true,
-    likes: "1",
-    comments: "0",
-  },
-  {
-    id: "4",
-    userName: "Selina Paul",
-    userImg: require("../assets/users/user-6.jpg"),
-    postTime: "1 day ago",
-    post: "Hey there, this is my test for a post of my social app in React Native.",
-    postImg: require("../assets/images/home_banner.jpg"),
-    liked: true,
-    likes: "22",
-    comments: "4",
-  },
-  {
-    id: "5",
-    userName: "Christy Alex",
-    userImg: require("../assets/users/user-7.jpg"),
-    postTime: "2 days ago",
-    post: "Hey there, this is my test for a post of my social app in React Native.",
-    postImg: "none",
-    liked: false,
-    likes: "0",
-    comments: "0",
-  },
-];
-
 const NewsFeedScreen = ({ navigation, route }) => {
   const user = route?.params?.user;
   const [posts, setPosts] = useState(null);
+  const [value, setValue] = useState("Light");
+  const [listPost, setListPost] = useState([]);
   const [loading, setLoading] = useState(false);
   const [deleted, setDeleted] = useState(false);
+  const [listUser, setListUser] = useState([]);
+  const [category, setCategory] = useState(null);
 
+  if (category) {
+    useEffect(() => {
+      const getListPost = async () => {
+        try {
+          const res = await axios.get(`${API_URL}/api/posts/find/${category}`);
+          setListPost(res.data);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      getListPost();
+    }, []);
+  } else {
+    useEffect(() => {
+      const getListPost = async () => {
+        try {
+          const res = await axios.get(`${API_URL}/api/posts/list`);
+          setListPost(res.data.data);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      getListPost();
+    }, []);
+  }
+
+  useEffect(() => {
+    const getListUser = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/users/`);
+        setListUser(res.data.user);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getListUser();
+  }, []);
+
+  const dataTest = listPost?.map((x, value) => ({
+    ...x,
+    id: value + 1,
+    user: listUser?.find((i) => i.userId === x.userId),
+  }));
+  const Posts = dataTest?.map((item) => ({
+    id: item.id,
+    userName: item?.user?.licensePlate,
+    userImg: item?.user?.profilePicture,
+    post: item?.desc,
+    postImg: item?.img,
+    postTime: moment.utc(item?.createdAt).local().startOf("seconds").fromNow(),
+    liked: false,
+    likes: "0",
+    comments: "0",
+    userId: item?.userId,
+    postId: item?._id,
+  }));
   const ListHeader = () => {
     return null;
   };
+
+  const handleFilterPost = async (category) => {
+    try {
+      const response = await axios.get(`${API_URL}/api/posts/find/${category}`);
+      if (response.data.success) navigation.navigate("NewsFeed");
+      setListPost(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onChangeSelect = (val) => {
+    switch (val) {
+      case "Va chạm":
+        setValue(val);
+        handleFilterPost(1);
+        break;
+      case "Tắc đường":
+        setValue(val);
+        handleFilterPost(2);
+        break;
+      case "Chú ý":
+        setValue(val);
+        handleFilterPost(3);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleDelete = async (postId, userId) => {
+    try {
+      const response = await axios.delete(
+        `${API_URL}/api/posts/${postId}/${userId}`
+      );
+      if (response.data.success) navigation.navigate("NewsFeed");
+      showMessage({
+        message: "Thành công",
+        description: response?.data?.message,
+        type: NOTIFICATION_TYPE.SUCCESS,
+      });
+    } catch (error) {
+      showMessage({
+        message: "Thất bại",
+        description: error?.response?.data?.message,
+        type: NOTIFICATION_TYPE.ERROR,
+      });
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {loading ? (
@@ -217,12 +278,29 @@ const NewsFeedScreen = ({ navigation, route }) => {
               </TouchableOpacity>
             </View>
           </View>
+          <View
+            style={{
+              width: 360,
+              marginBottom: 10,
+            }}
+          >
+            <ButtonToggleGroup
+              highlightBackgroundColor={"#22b4b7"}
+              highlightTextColor={"white"}
+              inactiveBackgroundColor={"transparent"}
+              inactiveTextColor={"grey"}
+              values={["Va chạm", "Tắc đường", "Chú ý"]}
+              value={value}
+              onSelect={(val) => onChangeSelect(val)}
+            />
+          </View>
           <FlatList
             data={Posts}
             renderItem={({ item }) => (
               <PostCard
+                user={user}
                 item={item}
-                // onDelete={handleDelete}
+                onDelete={handleDelete}
                 onPress={() =>
                   navigation.navigate("HomeProfile", { userId: item.userId })
                 }

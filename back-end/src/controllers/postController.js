@@ -37,7 +37,7 @@ class PostController {
   async deletePost(req, res) {
     try {
       const post = await Post.findById(req.params.id);
-      if (post.userId === req.body.userId) {
+      if (post.userId === req.params.userId) {
         await post.deleteOne();
         res
           .status(200)
@@ -79,6 +79,16 @@ class PostController {
     }
   }
 
+  //get a post
+  async getPostByCategory(req, res) {
+    try {
+      const post = await Post.find({ category: req.params.category });
+      res.status(200).json(post);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
   //get timeline posts
   async getTimeline(req, res) {
     try {
@@ -92,6 +102,17 @@ class PostController {
       res.json(userPosts.concat(...friendPosts));
     } catch (err) {
       res.status(500).json(err);
+    }
+  }
+
+  async getAllPost(req, res) {
+    try {
+      const posts = await Post.find();
+      res
+        .status(200)
+        .json({ success: true, data: posts, total: posts?.length });
+    } catch (err) {
+      res.status(500).json({ success: false, message: "Interal server error" });
     }
   }
 }

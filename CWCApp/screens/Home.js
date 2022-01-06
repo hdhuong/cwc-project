@@ -191,7 +191,7 @@ const HomeScreen = ({ navigation, route }) => {
             bgColor={["#ffc465", "#ff9c5f"]}
             label="Chú ý"
             onPress={() => {
-              console.log("Hotel");
+              navigation.navigate("AddPostCategory", { user, category: 1 });
             }}
           />
           <OptionItem

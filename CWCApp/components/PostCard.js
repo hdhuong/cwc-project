@@ -22,7 +22,8 @@ import ProgressiveImage from "./ProgressiveImage";
 import moment from "moment";
 import { TouchableOpacity } from "react-native";
 
-const PostCard = ({ item, onDelete, onPress }) => {
+const PostCard = ({ item, onDelete, onPress, user }) => {
+  console.log("user", item);
   const [userData, setUserData] = useState(null);
 
   likeIcon = item.liked ? "heart" : "heart-outline";
@@ -49,18 +50,15 @@ const PostCard = ({ item, onDelete, onPress }) => {
       <UserInfo>
         <UserImg
           source={{
-            uri: userData
-              ? userData.userImg ||
+            uri: item.userImg
+              ? item.userImg ||
                 "https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg"
               : "https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg",
           }}
         />
         <UserInfoText>
           <TouchableOpacity onPress={onPress}>
-            <UserName>
-              {userData ? userData.fname || "Test" : "Test"}{" "}
-              {userData ? userData.lname || "User" : "User"}
-            </UserName>
+            <UserName>{item ? item.userName || "Test" : "Test"}</UserName>
           </TouchableOpacity>
           <PostTime>{item.postTime}</PostTime>
         </UserInfoText>
@@ -70,7 +68,7 @@ const PostCard = ({ item, onDelete, onPress }) => {
       {item.postImg != null ? (
         <ProgressiveImage
           defaultImageSource={require("../assets/images/bike.png")}
-          source={item.postImg}
+          source={{ uri: item.postImg ? item.postImg : null }}
           style={{ width: "100%", height: 250 }}
           resizeMode="cover"
         />
@@ -87,11 +85,11 @@ const PostCard = ({ item, onDelete, onPress }) => {
           <Ionicons name="md-chatbubble-outline" size={25} />
           <InteractionText>{commentText}</InteractionText>
         </Interaction>
-        {/* {user.uid == item.userId ? (
-          <Interaction onPress={() => onDelete(item.id)}>
+        {user?._id == item.userId ? (
+          <Interaction onPress={() => onDelete(item.postId, user?._id)}>
             <Ionicons name="md-trash-bin" size={25} />
           </Interaction>
-        ) : null} */}
+        ) : null}
       </InteractionWrapper>
     </Card>
   );

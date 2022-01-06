@@ -8,6 +8,7 @@ import AddPostScreen from "../screens/AddPost";
 import ChatScreen from "../screens/Chat";
 import MessagesScreen from "../screens/Messages";
 import MapScreen from "../screens/Maps";
+import AddPostCategoryScreen from "../screens/AddPostCategory";
 const HomeStack = createStackNavigator();
 
 const HomeStackScreen = ({ navigation, route }) => {
@@ -45,6 +46,10 @@ const HomeStackScreen = ({ navigation, route }) => {
       <HomeStack.Screen
         name="Messages"
         component={MessagesScreen}
+      ></HomeStack.Screen>
+      <HomeStack.Screen
+        name="AddPostCategory"
+        component={AddPostCategoryScreen}
       ></HomeStack.Screen>
     </HomeStack.Navigator>
   );

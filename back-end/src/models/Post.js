@@ -17,6 +17,10 @@ const PostSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    category: {
+      type: Number,
+      enum: [1, 2, 3],
+    },
   },
   { timestamps: true }
 );
