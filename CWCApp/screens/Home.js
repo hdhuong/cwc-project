@@ -191,7 +191,7 @@ const HomeScreen = ({ navigation, route }) => {
             bgColor={["#ffc465", "#ff9c5f"]}
             label="Chú ý"
             onPress={() => {
-              navigation.navigate("AddPostCategory", { user, category: 1 });
+              navigation.navigate("AddPostCategory", { user, category: 3 });
             }}
           />
           <OptionItem
@@ -199,7 +199,7 @@ const HomeScreen = ({ navigation, route }) => {
             bgColor={["#7cf1fb", "#4ebefd"]}
             label="Va chạm"
             onPress={() => {
-              console.log("Eats");
+              navigation.navigate("AddPostCategory", { user, category: 1 });
             }}
           />
           <OptionItem
@@ -207,7 +207,7 @@ const HomeScreen = ({ navigation, route }) => {
             bgColor={["#7be993", "#46caaf"]}
             label="Tắc đường"
             onPress={() => {
-              console.log("Adventure");
+              navigation.navigate("AddPostCategory", { user, category: 2 });
             }}
           />
           <OptionItem

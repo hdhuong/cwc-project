@@ -12,7 +12,13 @@ export const news3 = require("../assets/images/news3.jpeg");
 export const news4 = require("../assets/images/news4.jpeg");
 export const nodata = require("../assets/images/nodata.jpg");
 export const notfound = require("../assets/images/notfound.png");
+export const slippery = require("../assets/images/slippery-road.png");
+export const trafficJam = require("../assets/images/traffic-jam.png");
+export const crash = require("../assets/images/crash.png");
 export default {
+  slippery,
+  crash,
+  trafficJam,
   beach,
   climbingHills,
   frozenHills,

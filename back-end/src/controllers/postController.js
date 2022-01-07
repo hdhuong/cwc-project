@@ -83,7 +83,7 @@ class PostController {
   async getPostByCategory(req, res) {
     try {
       const post = await Post.find({ category: req.params.category });
-      res.status(200).json(post);
+      res.status(200).json(post.reverse());
     } catch (err) {
       res.status(500).json(err);
     }
@@ -110,7 +110,7 @@ class PostController {
       const posts = await Post.find();
       res
         .status(200)
-        .json({ success: true, data: posts, total: posts?.length });
+        .json({ success: true, data: posts.reverse(), total: posts?.length });
     } catch (err) {
       res.status(500).json({ success: false, message: "Interal server error" });
     }

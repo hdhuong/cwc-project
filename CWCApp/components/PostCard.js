@@ -67,7 +67,7 @@ const PostCard = ({ item, onDelete, onPress, user }) => {
       {/* {item.postImg != null ? <PostImg source={{uri: item.postImg}} /> : <Divider />} */}
       {item.postImg != null ? (
         <ProgressiveImage
-          defaultImageSource={require("../assets/images/bike.png")}
+          defaultImageSource={require("../assets/images/nodata.jpg")}
           source={{ uri: item.postImg ? item.postImg : null }}
           style={{ width: "100%", height: 250 }}
           resizeMode="cover"

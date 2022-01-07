@@ -132,6 +132,17 @@ const NewsFeedScreen = ({ navigation, route }) => {
         `${API_URL}/api/posts/${postId}/${userId}`
       );
       if (response.data.success) navigation.navigate("NewsFeed");
+      useEffect(() => {
+        const getListPost = async () => {
+          try {
+            const res = await axios.get(`${API_URL}/api/posts/list`);
+            setListPost(res.data.data);
+          } catch (err) {
+            console.log(err);
+          }
+        };
+        getListPost();
+      }, []);
       showMessage({
         message: "Thành công",
         description: response?.data?.message,
