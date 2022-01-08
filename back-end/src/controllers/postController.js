@@ -115,6 +115,15 @@ class PostController {
       res.status(500).json({ success: false, message: "Interal server error" });
     }
   }
+
+  async getPostByUser(req, res) {
+    try {
+      const post = await Post.find({ userId: req.params.userId });
+      res.status(200).json(post.reverse());
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
 }
 
 module.exports = new PostController();

@@ -95,7 +95,7 @@ const HomeScreen = ({ navigation, route }) => {
           ...newsStyle,
         }}
         onPress={() => {
-          navigation.navigate("DestinationDetail");
+          navigation.navigate("NewsFeed", { user });
         }}
       >
         <Image

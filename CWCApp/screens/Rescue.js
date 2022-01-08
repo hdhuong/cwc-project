@@ -77,7 +77,6 @@ const RescueScreen = ({ route, navigation }) => {
           useNativeAndroidPickerStyle={false}
           value={selectedValue}
           style={pickerSelectStyles}
-          placeholder={"Chọn khu vực"}
           items={[
             { label: "Cứu hộ TP Hà Nội", value: 1 },
             { label: "Cứu hộ TP.HCM", value: 2 },

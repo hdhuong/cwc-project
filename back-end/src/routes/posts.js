@@ -22,6 +22,9 @@ router.get("/:id", postController.getPost);
 //get by category
 router.get("/find/:category", postController.getPostByCategory);
 
+//get by userId
+router.get("/author/:userId", postController.getPostByUser);
+
 //get timeline posts
 
 router.get("/timeline/all", postController.getTimeline);
