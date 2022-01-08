@@ -9,6 +9,7 @@ import ChatScreen from "../screens/Chat";
 import MessagesScreen from "../screens/Messages";
 import MapScreen from "../screens/Maps";
 import AddPostCategoryScreen from "../screens/AddPostCategory";
+import RescueScreen from "../screens/Rescue";
 const HomeStack = createStackNavigator();
 
 const HomeStackScreen = ({ navigation, route }) => {
@@ -50,6 +51,10 @@ const HomeStackScreen = ({ navigation, route }) => {
       <HomeStack.Screen
         name="AddPostCategory"
         component={AddPostCategoryScreen}
+      ></HomeStack.Screen>
+      <HomeStack.Screen
+        name="Rescue"
+        component={RescueScreen}
       ></HomeStack.Screen>
     </HomeStack.Navigator>
   );

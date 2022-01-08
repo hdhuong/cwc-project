@@ -215,7 +215,7 @@ const HomeScreen = ({ navigation, route }) => {
             bgColor={["#fca397", "#fc7b6c"]}
             label="Cứu hộ"
             onPress={() => {
-              console.log("Event");
+              navigation.navigate("Rescue", { user });
             }}
           />
         </View>

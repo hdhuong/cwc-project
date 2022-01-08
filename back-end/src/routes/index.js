@@ -3,6 +3,7 @@ const authRoute = require("./auth");
 const postRoute = require("./posts");
 const conversationRoute = require("./conversations");
 const messageRoute = require("./messages");
+const rescueRoute = require("./rescues");
 
 function route(app) {
   app.get("/", (req, res) => {
@@ -13,6 +14,7 @@ function route(app) {
   app.use("/api/posts", postRoute);
   app.use("/api/conversations", conversationRoute);
   app.use("/api/messages", messageRoute);
+  app.use("/api/rescues", rescueRoute);
 }
 
 module.exports = route;
