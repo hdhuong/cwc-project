@@ -70,23 +70,23 @@ const ChatScreen = ({ route, navigation }) => {
   }, []);
   const conversationId = conversation?._id;
 
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     const getMessages = async () => {
-  //       try {
-  //         const res = await axios.get(
-  //           `${API_URL}/api/messages/${conversationId}`
-  //         );
-  //         setMessages(res.data.messages.reverse());
-  //       } catch (err) {
-  //         console.log(err);
-  //       }
-  //     };
-  //     getMessages();
-  //   }, 2000);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const getMessages = async () => {
+        try {
+          const res = await axios.get(
+            `${API_URL}/api/messages/${conversationId}`
+          );
+          setMessages(res.data.messages.reverse());
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      getMessages();
+    }, 2000);
 
-  //   return () => clearInterval(intervalId);
-  // }, [conversation]);
+    return () => clearInterval(intervalId);
+  }, [conversation]);
 
   useEffect(() => {
     const getMessages = async () => {
