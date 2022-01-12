@@ -167,7 +167,12 @@ const ChatScreen = ({ route, navigation }) => {
     ...x,
     user: {
       _id: x.sender === currentUserId ? 1 : 2,
-      avatar: x.sender === currentUserId ? null : secondUser.profilePicture,
+      avatar:
+        x.sender === currentUserId
+          ? null
+          : secondUser.profilePicture
+          ? seconUser.profilePicture
+          : "https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user.png",
     },
   }));
 

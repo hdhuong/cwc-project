@@ -83,7 +83,9 @@ const NewsFeedScreen = ({ navigation, route }) => {
   const Posts = dataTest?.map((item) => ({
     id: item.id,
     userName: item?.user?.licensePlate,
-    userImg: item?.user?.profilePicture,
+    userImg: item?.user?.profilePicture
+      ? item.user.profilePicture
+      : "https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user.png",
     post: item?.desc,
     postImg: item?.img,
     postTime: moment.utc(item?.createdAt).local().startOf("seconds").fromNow(),
@@ -250,8 +252,8 @@ const NewsFeedScreen = ({ navigation, route }) => {
               source={{
                 uri: user
                   ? user.profilePicture ||
-                    "https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg"
-                  : "https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg",
+                    "https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user.png"
+                  : "https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user.png",
               }}
               style={{
                 width: 50,
